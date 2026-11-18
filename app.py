@@ -28,13 +28,14 @@ q3_accuracy = q3_results.loc["accuracy", "precision"]   # classification_report 
 # ---------------- Slide picker ----------------
 FIRST = "First"
 INTRO = "Introduction"
+ANALYZE = "How We Analyzed the Data"
 Q1 = "1. Do physical measurements determine if a player gets drafted?"
 Q2 = "2. Which combine stats are the best predictors of whether a player gets drafted?"
 Q3 = "3. Can a player's position group be predicted from his combine results?"
 CONCLUSION = "Conclusion"
 THX = "Thanks"
 
-slides = [FIRST, INTRO, Q1, Q2, Q3, CONCLUSION, THX]
+slides = [FIRST, INTRO, ANALYZE, Q1, Q2, Q3, CONCLUSION, THX]
 if "i" not in st.session_state:
     st.session_state.i = 0
 
@@ -81,7 +82,22 @@ elif slide == INTRO:
         f"3. {Q3[3:]}\n\n"
         "Use the dropdown above to move through the slides."
     )
-
+# ------------------------- Analyzing the Data Page -------------------------------------
+elif slide == ANALYZE:
+    st.title("Classification w/ Decision Trees")
+    st.markdown(
+        """
+        <ul style="font-size: 1.5rem;">
+            <li>We chose to do classification because every question has a category in its answer</li>
+            <li>We didn't use regression since none of our answers are a continuous number</li>
+            <li>Trained a separate tree for each position group</li>
+        </ul>
+        """,
+        unsafe_allow_html=True,
+    )
+    left, right = st.columns(2)
+    left.image("Screenshot 2026-11-18 181953.png", caption="Q1 Decision Tree")
+    right.image("Screenshot 2026-11-18 182248.png", caption="Q2 Decision Tree")
 # ---------------- Question 1 ----------------
 elif slide == Q1:
     st.header(Q1)
