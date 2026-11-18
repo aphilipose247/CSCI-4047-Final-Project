@@ -25,30 +25,66 @@ q2_importance = q2_importance.drop(index="QB", errors="ignore")
 
 q3_accuracy = q3_results.loc["accuracy", "precision"]   # classification_report stores accuracy here
 
-# ---------------- Title and description ----------------
-st.title("NFL Combine Dashboard: What Gets a Player Drafted?")
-st.markdown(
-    "We analyzed **NFL Scouting Combine results from 2010 to 2023** (Kaggle, user *thomassshaw*): "
-    "4,741 players with their height, weight, and six drills. Our models use the **2,024 players who "
-    "completed every drill**, grouped into position groups (QB excluded, since only 7 completed every drill)."
-)
+# ---------------- Slide picker ----------------
+FIRST = "First"
+INTRO = "Introduction"
+Q1 = "1. Do physical measurements determine if a player gets drafted?"
+Q2 = "2. Which combine stats are the best predictors of whether a player gets drafted?"
+Q3 = "3. Can a player's position group be predicted from his combine results?"
+CONCLUSION = "Conclusion"
+THX = "Thanks"
 
-c1, c2, c3 = st.columns(3)
-c1.metric("Players at the combine", "4,741")
-c2.metric("Completed every drill", "2,024")
-c3.metric("Position prediction accuracy", f"{q3_accuracy * 100:.0f}%")
+slides = [FIRST, INTRO, Q1, Q2, Q3, CONCLUSION, THX]
+if "i" not in st.session_state:
+    st.session_state.i = 0
 
-# ---------------- Dropdown ----------------
-question = st.selectbox(
-    "Choose a question",
-    ["1. Do physical measurements determine if a player gets drafted?",
-     "2. Which combine stats are the best predictors of whether a player gets drafted?",
-     "3. Can a player's position group be predicted from his combine results?"],
-)
+back, nxt = st.columns(2)
+if back.button("← Back", disabled=st.session_state.i == 0, use_container_width=True):
+    st.session_state.i -= 1
+    st.rerun()
+if nxt.button("Next →", disabled=st.session_state.i == len(slides) - 1, use_container_width=True):
+    st.session_state.i += 1
+    st.rerun()
+
+slide = slides[st.session_state.i]
+st.progress((st.session_state.i + 1) / len(slides))
+# ---------------- Intro slides ----------------
+
+if slide == FIRST:
+    st.markdown(
+        """
+        <div style="text-align: center;">
+            <h1 style="font-size: 4rem;">CSCI 4047 FINAL PROJECT</h1>
+            <p style="font-size: 2rem;">By: Alan Philipose and Sylar Jolly</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+elif slide == INTRO:
+    st.title("NFL Combine Dashboard: What Gets a Player Drafted?")
+    st.markdown(
+        "We analyzed **NFL Scouting Combine results from 2010 to 2023** (Kaggle, user *thomassshaw*): "
+        "4,741 players with their height, weight, and six drills. Our models use the **2,024 players who "
+        "completed every drill**, grouped into position groups (QB excluded, since only 7 completed every drill)."
+    )
+
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Players at the combine", "4,741")
+    c2.metric("Completed every drill", "2,024")
+    c3.metric("Position prediction accuracy", f"{q3_accuracy * 100:.0f}%")
+
+    st.subheader("Questions we answer")
+    st.markdown(
+        f"1. {Q1[3:]}\n"
+        f"2. {Q2[3:]}\n"
+        f"3. {Q3[3:]}\n\n"
+        "Use the dropdown above to move through the slides."
+    )
 
 # ---------------- Question 1 ----------------
-if question.startswith("1"):
-    st.header(question)
+elif slide == Q1:
+    st.header(Q1)
     st.image("q1_by_position.png", caption="Model accuracy vs guessing 'drafted' for everyone")
 
     st.subheader("Results by position group")
@@ -64,11 +100,10 @@ if question.startswith("1"):
     )
 
 # ---------------- Question 2 ----------------
-elif question.startswith("2"):
-    st.header(question)
+elif slide == Q2:
+    st.header(Q2)
     st.image("q2_importance_by_position.png", caption="Feature importance for each position group")
 
-    # Second dropdown: pick a position to see its stats ranked
     group = st.selectbox("Pick a position group", list(q2_importance.index))
     imp = q2_importance.loc[group].sort_values()
 
@@ -92,8 +127,8 @@ elif question.startswith("2"):
     )
 
 # ---------------- Question 3 ----------------
-else:
-    st.header(question)
+elif slide == Q3:
+    st.header(Q3)
     left, right = st.columns(2)
     left.image("q3_confusion_matrix.png", caption="Predicted vs actual position group")
     right.image("q3_feature_importance.png", caption="Which stats identify a player's position")
@@ -108,11 +143,23 @@ else:
         "and wide receivers (46%) and tight ends (59%) were hardest. Weight and height did most of the work."
     )
 
-# ---------------- Key results ----------------
-st.header("Key Results")
-st.success(
-    "- **Size alone doesn't get you drafted.** Height and weight predicted the draft no better than guessing.\n"
-    "- **Speed matters most.** The 40-yard dash was the top predictor for 6 of 7 position groups.\n"
-    f"- **Size reveals position.** Combine stats predicted position group with {q3_accuracy * 100:.0f}% "
-    "accuracy, mostly from weight and height."
-)
+# ---------------- Conclusion slide ----------------
+elif slide == CONCLUSION:
+    st.title("Conclusion")
+    st.success(
+        "- **Size alone doesn't get you drafted.** Height and weight predicted the draft no better than guessing.\n"
+        "- **Speed matters most.** The 40-yard dash was the top predictor for 6 of 7 position groups.\n"
+        f"- **Size reveals position.** Combine stats predicted position group with {q3_accuracy * 100:.0f}% "
+        "accuracy, mostly from weight and height."
+    )
+# ---------------- Thank you slide ----------------
+
+else:
+    st.markdown(
+        """
+        <div style="text-align: center;">
+            <h1 style="font-size: 6rem;">THANK YOU</h1>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
