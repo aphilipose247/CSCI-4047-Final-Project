@@ -80,7 +80,6 @@ elif slide == INTRO:
         f"1. {Q1[3:]}\n"
         f"2. {Q2[3:]}\n"
         f"3. {Q3[3:]}\n\n"
-        "Use the dropdown above to move through the slides."
     )
 # ------------------------- Analyzing the Data Page -------------------------------------
 elif slide == ANALYZE:
