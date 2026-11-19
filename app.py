@@ -86,7 +86,29 @@ elif slide == INTRO:
 # ------------------------- Cleaning the Data Page -------------------------------------
 elif slide == CLEAN:
     st.header(CLEAN)
-    st.image("histograms.png", caption="General Overview of Data")
+
+    st.subheader("General Overview of Data")
+    st.image("histograms.png", use_container_width=True)
+    st.divider()
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.subheader("Converting Height to Inches")
+        st.image("codeHtoIN.png", use_container_width=True)
+    with col2:
+        st.subheader("Fixing Missing Values")
+        st.image("codemissingval.png", use_container_width=True)
+    with col3:
+        st.subheader("Encoding Categorical Columns")
+        st.image("codeencode.png", use_container_width=True)
+    st.divider()
+
+    st.subheader("Grouping Positions Together for Analysis")
+    left, right = st.columns(2)
+    left.image("OLVDL.png", use_container_width=True)
+    right.image("positionscode.png", use_container_width=True)
+
+
 
 # ------------------------- Analyzing the Data Page -------------------------------------
 elif slide == ANALYZE:
@@ -185,4 +207,5 @@ else:
         </div>
         """,
         unsafe_allow_html=True,
+
     )
