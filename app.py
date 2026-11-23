@@ -15,14 +15,6 @@ q2_importance = pd.read_csv("q2_importance_by_position.csv", index_col=0)
 compare = pd.read_csv("q1_vs_q2_comparison.csv")
 q3_results = pd.read_csv("q3_results.csv", index_col=0)
 q3_importance = pd.read_csv("q3_feature_importance.csv", index_col=0)
-
-# QB left out: only 7 quarterbacks completed every drill
-q1_results = q1_results[q1_results["Position"] != "QB"]
-q2_results = q2_results[q2_results["Position"] != "QB"]
-compare = compare[compare["Position"] != "QB"]
-q1_importance = q1_importance.drop(index="QB", errors="ignore")
-q2_importance = q2_importance.drop(index="QB", errors="ignore")
-
 q3_accuracy = q3_results.loc["accuracy", "precision"]   # classification_report stores accuracy here
 
 # ---------------- Slide picker ----------------
