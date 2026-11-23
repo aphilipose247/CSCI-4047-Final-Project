@@ -66,8 +66,6 @@ elif slide == INTRO:
     c1, c2, c3 = st.columns(3)
     c1.metric("Players at the combine", "4,741")
     c2.metric("Completed every drill", "2,024")
-    c3.metric("Position prediction accuracy", f"{q3_accuracy * 100:.0f}%")
-
     st.subheader("Questions we answer")
     st.markdown(
         f"1. {Q1[3:]}\n"
