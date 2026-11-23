@@ -213,5 +213,5 @@ else:
     cropped_img = img.crop((100, 100, width - 100, height - 300))
 
     # 3. Display it smaller using the width parameter (in pixels)
-    st.image(cropped_img, width=300)
+    st.image(cropped_img, width=50)
 
