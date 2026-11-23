@@ -66,6 +66,7 @@ elif slide == INTRO:
     c1, c2, c3 = st.columns(3)
     c1.metric("Players at the combine", "4,741")
     c2.metric("Completed every drill", "2,024")
+
     st.subheader("Questions we answer")
     st.markdown(
         f"1. {Q1[3:]}\n"
@@ -197,5 +198,20 @@ else:
         </div>
         """,
         unsafe_allow_html=True,
+        
 
     )
+    from PIL import Image
+    import streamlit as st
+
+    # 1. Open the image
+    img = Image.open("IMG_7337.jpeg")
+
+    # 2. Crop the image
+    # Coordinates are (left, top, right, bottom) in pixels
+    width, height = img.size
+    cropped_img = img.crop((100, 100, width - 100, height - 300))
+
+    # 3. Display it smaller using the width parameter (in pixels)
+    st.image(cropped_img, width=300)
+
